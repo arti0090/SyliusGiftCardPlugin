@@ -19,16 +19,10 @@ use Webmozart\Assert\Assert;
 
 final class AddToCartTypeExtension extends AbstractTypeExtension
 {
-    private GiftCardFactoryInterface $giftCardFactory;
-
-    private EntityManagerInterface $giftCardManager;
-
     public function __construct(
-        GiftCardFactoryInterface $giftCardFactory,
-        EntityManagerInterface $giftCardManager,
+        private readonly GiftCardFactoryInterface $giftCardFactory,
+        private readonly EntityManagerInterface $giftCardManager,
     ) {
-        $this->giftCardFactory = $giftCardFactory;
-        $this->giftCardManager = $giftCardManager;
     }
 
     public static function getExtendedTypes(): iterable
@@ -41,7 +35,6 @@ final class AddToCartTypeExtension extends AbstractTypeExtension
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'reworkFormForGiftCard']);
-
         $builder->addEventListener(FormEvents::POST_SUBMIT, [$this, 'populateCartItem']);
     }
 
@@ -53,42 +46,29 @@ final class AddToCartTypeExtension extends AbstractTypeExtension
             return;
         }
 
-        $variant = $data->getCartItem()->getVariant();
-        if (null === $variant) {
+        $product = $data->getCartItem()->getVariant()?->getProduct();
+        if (!$product instanceof ProductInterface || !$product->isGiftCard()) {
             return;
         }
 
-        /** @var ProductInterface|null $product */
-        $product = $variant->getProduct();
-        if (null === $product) {
-            return;
-        }
-
-        // If the product is a gift card, we add the GiftCardInformation fields
-        if ($product->isGiftCard()) {
-            $form = $event->getForm();
-            $form->add('giftCardInformation', AddToCartGiftCardInformationType::class, [
-                'product' => $product,
-            ]);
-        }
+        $form = $event->getForm();
+        $form->add('giftCardInformation', AddToCartGiftCardInformationType::class, [
+            'product' => $product,
+        ]);
     }
 
     public function populateCartItem(FormEvent $event): void
     {
         /** @var AddToCartCommandInterface|null $data */
         $data = $event->getData();
-        if (null === $data) {
+        if (!$data instanceof AddToCartCommandInterface) {
             return;
         }
 
         $cartItem = $data->getCartItem();
-        /** @var ProductInterface|null $product */
-        $product = $cartItem->getProduct();
-        if (null === $product) {
-            return;
-        }
 
-        if (!$product->isGiftCard()) {
+        $product = $cartItem->getVariant()?->getProduct();
+        if (!$product instanceof ProductInterface || !$product->isGiftCard()) {
             return;
         }
 
