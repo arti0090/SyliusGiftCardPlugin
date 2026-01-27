@@ -17,7 +17,7 @@ final class GiftCardVoter extends Voter
 {
     public const READ = 'read';
 
-    protected function supports($attribute, $subject): bool
+    protected function supports(string $attribute, mixed $subject): bool
     {
         if (self::READ !== $attribute) {
             return false;
@@ -30,12 +30,12 @@ final class GiftCardVoter extends Voter
         return true;
     }
 
-    /**
-     * @param string $attribute
-     * @param GiftCardInterface $subject
-     */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
+        if (false === $subject instanceof GiftCardInterface) {
+            return false;
+        }
+
         /** @var UserInterface|ShopUserInterface|AdminUserInterface|null $user */
         $user = $token->getUser();
         if (!$user instanceof UserInterface) {

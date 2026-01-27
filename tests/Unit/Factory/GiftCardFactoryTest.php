@@ -15,12 +15,12 @@ use Setono\SyliusGiftCardPlugin\Provider\GiftCardConfigurationProviderInterface;
 use Setono\SyliusGiftCardPlugin\Tests\Application\Model\Order;
 use Setono\SyliusGiftCardPlugin\Tests\Application\Model\OrderItem;
 use Setono\SyliusGiftCardPlugin\Tests\Application\Model\OrderItemUnit;
-use Sylius\Bundle\ShippingBundle\Provider\Calendar;
-use Sylius\Bundle\ShippingBundle\Provider\DateTimeProvider;
 use Sylius\Component\Core\Model\Channel;
 use Sylius\Component\Core\Model\Customer;
 use Sylius\Component\Currency\Context\CurrencyContextInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
+use Symfony\Component\Clock\ClockInterface;
+use Symfony\Component\Clock\MockClock;
 
 final class GiftCardFactoryTest extends TestCase
 {
@@ -36,6 +36,7 @@ final class GiftCardFactoryTest extends TestCase
         $decoratedFactory = $this->prophesize(FactoryInterface::class);
         $giftCardCodeGenerator = $this->prophesize(GiftCardCodeGeneratorInterface::class);
         $configurationProvider = $this->prophesize(GiftCardConfigurationProviderInterface::class);
+        $clock = $this->prophesize(ClockInterface::class);
         $currencyContext = $this->prophesize(CurrencyContextInterface::class);
 
         $decoratedFactory->createNew()->willReturn($giftCard);
@@ -45,7 +46,7 @@ final class GiftCardFactoryTest extends TestCase
             $decoratedFactory->reveal(),
             $giftCardCodeGenerator->reveal(),
             $configurationProvider->reveal(),
-            new Calendar(),
+            $clock->reveal(),
             $currencyContext->reveal(),
         );
         $createdGiftCard = $factory->createNew();
@@ -65,6 +66,7 @@ final class GiftCardFactoryTest extends TestCase
         $decoratedFactory = $this->prophesize(FactoryInterface::class);
         $giftCardCodeGenerator = $this->prophesize(GiftCardCodeGeneratorInterface::class);
         $configurationProvider = $this->prophesize(GiftCardConfigurationProviderInterface::class);
+        $clock = $this->prophesize(ClockInterface::class);
         $currencyContext = $this->prophesize(CurrencyContextInterface::class);
 
         $decoratedFactory->createNew()->willReturn($giftCard);
@@ -75,7 +77,7 @@ final class GiftCardFactoryTest extends TestCase
             $decoratedFactory->reveal(),
             $giftCardCodeGenerator->reveal(),
             $configurationProvider->reveal(),
-            new Calendar(),
+            $clock->reveal(),
             $currencyContext->reveal(),
         );
         $createdGiftCard = $factory->createForChannel($channel);
@@ -93,25 +95,26 @@ final class GiftCardFactoryTest extends TestCase
         $channel = new Channel();
         $giftCardConfiguration = new GiftCardConfiguration();
         $giftCardConfiguration->setDefaultValidityPeriod('1 month');
+
         $expectedValidUntilDate = new \DateTime('2022-01-01 12:00:00');
         $expectedValidUntilDate->modify('+1 month');
 
         $decoratedFactory = $this->prophesize(FactoryInterface::class);
         $giftCardCodeGenerator = $this->prophesize(GiftCardCodeGeneratorInterface::class);
         $configurationProvider = $this->prophesize(GiftCardConfigurationProviderInterface::class);
-        $calendar = $this->prophesize(DateTimeProvider::class);
         $currencyContext = $this->prophesize(CurrencyContextInterface::class);
 
         $decoratedFactory->createNew()->willReturn($giftCard);
         $giftCardCodeGenerator->generate()->willReturn('super-code');
         $configurationProvider->getConfigurationForGiftCard($giftCard)->willReturn($giftCardConfiguration);
-        $calendar->today()->willReturn(new \DateTimeImmutable('2022-01-01 12:00:00'));
+
+        $clock = new MockClock('2022-01-01 12:00:00');
 
         $factory = new GiftCardFactory(
             $decoratedFactory->reveal(),
             $giftCardCodeGenerator->reveal(),
             $configurationProvider->reveal(),
-            $calendar->reveal(),
+            $clock,
             $currencyContext->reveal(),
         );
         $createdGiftCard = $factory->createForChannel($channel);
@@ -132,6 +135,7 @@ final class GiftCardFactoryTest extends TestCase
         $decoratedFactory = $this->prophesize(FactoryInterface::class);
         $giftCardCodeGenerator = $this->prophesize(GiftCardCodeGeneratorInterface::class);
         $configurationProvider = $this->prophesize(GiftCardConfigurationProviderInterface::class);
+        $clock = $this->prophesize(ClockInterface::class);
         $currencyContext = $this->prophesize(CurrencyContextInterface::class);
 
         $decoratedFactory->createNew()->willReturn($giftCard);
@@ -142,7 +146,7 @@ final class GiftCardFactoryTest extends TestCase
             $decoratedFactory->reveal(),
             $giftCardCodeGenerator->reveal(),
             $configurationProvider->reveal(),
-            new Calendar(),
+            $clock->reveal(),
             $currencyContext->reveal(),
         );
         $createdGiftCard = $factory->createForChannelFromAdmin($channel);
@@ -169,6 +173,7 @@ final class GiftCardFactoryTest extends TestCase
         $decoratedFactory = $this->prophesize(FactoryInterface::class);
         $giftCardCodeGenerator = $this->prophesize(GiftCardCodeGeneratorInterface::class);
         $configurationProvider = $this->prophesize(GiftCardConfigurationProviderInterface::class);
+        $clock = $this->prophesize(ClockInterface::class);
         $currencyContext = $this->prophesize(CurrencyContextInterface::class);
 
         $decoratedFactory->createNew()->willReturn($giftCard);
@@ -179,7 +184,7 @@ final class GiftCardFactoryTest extends TestCase
             $decoratedFactory->reveal(),
             $giftCardCodeGenerator->reveal(),
             $configurationProvider->reveal(),
-            new Calendar(),
+            $clock->reveal(),
             $currencyContext->reveal(),
         );
         $createdGiftCard = $factory->createFromOrderItemUnitAndCart($orderItemUnit->reveal(), $cart);
@@ -216,6 +221,7 @@ final class GiftCardFactoryTest extends TestCase
         $decoratedFactory = $this->prophesize(FactoryInterface::class);
         $giftCardCodeGenerator = $this->prophesize(GiftCardCodeGeneratorInterface::class);
         $configurationProvider = $this->prophesize(GiftCardConfigurationProviderInterface::class);
+        $clock = $this->prophesize(ClockInterface::class);
         $currencyContext = $this->prophesize(CurrencyContextInterface::class);
 
         $decoratedFactory->createNew()->willReturn($giftCard);
@@ -226,7 +232,7 @@ final class GiftCardFactoryTest extends TestCase
             $decoratedFactory->reveal(),
             $giftCardCodeGenerator->reveal(),
             $configurationProvider->reveal(),
-            new Calendar(),
+            $clock->reveal(),
             $currencyContext->reveal(),
         );
         $createdGiftCard = $factory->createFromOrderItemUnit($orderItemUnit->reveal());
@@ -250,6 +256,7 @@ final class GiftCardFactoryTest extends TestCase
         $decoratedFactory = $this->prophesize(FactoryInterface::class);
         $giftCardCodeGenerator = $this->prophesize(GiftCardCodeGeneratorInterface::class);
         $configurationProvider = $this->prophesize(GiftCardConfigurationProviderInterface::class);
+        $clock = $this->prophesize(ClockInterface::class);
         $currencyContext = $this->prophesize(CurrencyContextInterface::class);
 
         $giftCard = new GiftCard();
@@ -261,7 +268,7 @@ final class GiftCardFactoryTest extends TestCase
             $decoratedFactory->reveal(),
             $giftCardCodeGenerator->reveal(),
             $configurationProvider->reveal(),
-            new Calendar(),
+            $clock->reveal(),
             $currencyContext->reveal(),
         );
         $returnedGiftCard = $factory->createExample();
