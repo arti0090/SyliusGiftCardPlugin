@@ -19,8 +19,8 @@ final class GiftCardCodeAwareInputCommandDataTransformerTest extends TestCase
     {
         $dataTransformer = new GiftCardCodeAwareInputCommandDataTransformer();
 
-        self::assertFalse($dataTransformer->supportsTransformation('anything'));
-        self::assertTrue($dataTransformer->supportsTransformation(new AddGiftCardToOrder('token_value')));
+        self::assertFalse($dataTransformer->supportsTransformation('anything', 'any_class'));
+        self::assertTrue($dataTransformer->supportsTransformation(new AddGiftCardToOrder('token_value'), 'any_class'));
     }
 
     /**
