@@ -10,6 +10,14 @@ trait OrderItemTrait
 {
     public function equals(BaseOrderItemInterface $item): bool
     {
-        return parent::equals($item) && !$this->getProduct()->isGiftCard();
+        if ($this === $item) {
+            return true;
+        }
+
+        if (false === parent::equals($item)) {
+            return false;
+        }
+
+        return false === $this->getProduct()?->isGiftCard();
     }
 }

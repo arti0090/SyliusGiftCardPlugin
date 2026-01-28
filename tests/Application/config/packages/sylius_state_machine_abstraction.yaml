@@ -1,2 +1,2 @@
 sylius_state_machine_abstraction:
-    default_adapter: winzou
+    default_adapter: winzou_state_machine

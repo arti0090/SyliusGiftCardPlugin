@@ -37,7 +37,8 @@
             <tag name="messenger.message_handler" bus="sylius_default.bus" />
         </service>
 
-        <service id="Setono\SyliusGiftCardPlugin\Api\CommandHandler\AddItemToCartHandler" decorates="Sylius\Bundle\ApiBundle\CommandHandler\Cart\AddItemToCartHandler">
+        <service id="Setono\SyliusGiftCardPlugin\Api\CommandHandler\AddItemToCartHandler"
+                 decorates="Sylius\Bundle\ApiBundle\CommandHandler\Cart\AddItemToCartHandler">
             <argument type="service" id="sylius.repository.order" />
             <argument type="service" id="sylius.repository.product_variant" />
             <argument type="service" id="sylius.order_modifier" />
