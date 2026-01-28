@@ -4,19 +4,20 @@ declare(strict_types=1);
 
 namespace Setono\SyliusGiftCardPlugin\Api\DataTransformer;
 
-use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
 use Setono\SyliusGiftCardPlugin\Api\Command\ConfigurationCodeAwareInterface;
 use Setono\SyliusGiftCardPlugin\Model\GiftCardConfigurationInterface;
-use Webmozart\Assert\Assert;
+use Sylius\Bundle\ApiBundle\DataTransformer\CommandDataTransformerInterface;
 
-final class GiftCardConfigurationCodeAwareInputCommandDataTransformer implements DataTransformerInterface
+/**
+ * @psalm-suppress DeprecatedInterface
+ */
+final class GiftCardConfigurationCodeAwareInputCommandDataTransformer implements CommandDataTransformerInterface
 {
+    /**
+     * @param ConfigurationCodeAwareInterface $object
+     */
     public function transform($object, string $to, array $context = []): ConfigurationCodeAwareInterface
     {
-        Assert::isInstanceOf($object, ConfigurationCodeAwareInterface::class);
-        Assert::keyExists($context, 'object_to_populate');
-        Assert::isInstanceOf($context['object_to_populate'], GiftCardConfigurationInterface::class);
-
         /** @var GiftCardConfigurationInterface $giftCardConfiguration */
         $giftCardConfiguration = $context['object_to_populate'];
 
@@ -25,8 +26,11 @@ final class GiftCardConfigurationCodeAwareInputCommandDataTransformer implements
         return $object;
     }
 
-    public function supportsTransformation($data, string $to, array $context = []): bool
+    /**
+     * @param object $object
+     */
+    public function supportsTransformation($object): bool
     {
-        return $data instanceof ConfigurationCodeAwareInterface;
+        return $object instanceof ConfigurationCodeAwareInterface;
     }
 }
