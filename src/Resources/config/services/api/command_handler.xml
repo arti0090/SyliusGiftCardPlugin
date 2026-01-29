@@ -38,7 +38,7 @@
         </service>
 
         <service id="Setono\SyliusGiftCardPlugin\Api\CommandHandler\AddItemToCartHandler"
-                 decorates="Sylius\Bundle\ApiBundle\CommandHandler\Cart\AddItemToCartHandler">
+                 decorates="sylius_api.command_handler.cart.add_item_to_cart">
             <argument type="service" id="sylius.repository.order" />
             <argument type="service" id="sylius.repository.product_variant" />
             <argument type="service" id="sylius.order_modifier" />

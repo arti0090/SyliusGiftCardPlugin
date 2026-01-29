@@ -58,6 +58,16 @@ final class OrderGiftCardProcessor implements OrderProcessorInterface
                 continue;
             }
 
+            $adjustments = $order->getAdjustments(AdjustmentInterface::ORDER_GIFT_CARD_ADJUSTMENT);
+            $hasAdjustment = $adjustments->exists(
+                fn (mixed $adjustment): bool => $adjustment instanceof AdjustmentInterface &&
+                    $adjustment->getOriginCode() === $giftCard->getCode(),
+            );
+
+            if ($hasAdjustment) {
+                continue;
+            }
+
             $adjustment = $this->adjustmentFactory->createWithData(
                 AdjustmentInterface::ORDER_GIFT_CARD_ADJUSTMENT,
                 $this->translator->trans('setono_sylius_gift_card.ui.gift_card'),
