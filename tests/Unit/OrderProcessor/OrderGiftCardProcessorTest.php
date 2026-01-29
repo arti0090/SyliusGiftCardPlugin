@@ -48,6 +48,7 @@ final class OrderGiftCardProcessorTest extends TestCase
         $order->getId()->willReturn(1);
         $order->isEmpty()->willReturn(false);
         $order->hasGiftCards()->willReturn(true);
+        $order->getAdjustments(AdjustmentInterface::ORDER_GIFT_CARD_ADJUSTMENT)->willReturn(new ArrayCollection());
 
         $giftCard1 = $this->prophesize(GiftCardInterface::class);
         $giftCard1->getAmount()->willReturn(50);

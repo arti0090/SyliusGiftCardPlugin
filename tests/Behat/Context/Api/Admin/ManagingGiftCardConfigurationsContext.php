@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusGiftCardPlugin\Tests\Behat\Context\Api\Admin;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
+use ApiPlatform\Api\IriConverterInterface;
 use Behat\Behat\Context\Context;
 use Setono\SyliusGiftCardPlugin\Tests\Behat\Context\Api\Resources;
 use Sylius\Behat\Client\ApiClientInterface;
@@ -13,6 +13,7 @@ use Sylius\Behat\Client\ResponseCheckerInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Locale\Model\Locale;
 use Symfony\Component\HttpFoundation\Request as HTTPRequest;
+use Symfony\Component\Routing\RouterInterface;
 use Webmozart\Assert\Assert;
 
 final class ManagingGiftCardConfigurationsContext implements Context
@@ -22,6 +23,7 @@ final class ManagingGiftCardConfigurationsContext implements Context
         private ResponseCheckerInterface $responseChecker,
         private IriConverterInterface $iriConverter,
         private RequestFactoryInterface $requestFactory,
+        private RouterInterface $router,
     ) {
     }
 
@@ -202,9 +204,12 @@ final class ManagingGiftCardConfigurationsContext implements Context
 
         $channelConfigurations = $this->responseChecker->getValue($response, 'channelConfigurations');
 
-        Assert::same($channelConfigurations[0]['channel'], $this->iriConverter->getIriFromItem($channel));
+        Assert::same(
+            $channelConfigurations[0]['channel'],
+            $this->router->generate('api_channels_admin_get_item', ['code' => $channel->getCode()]),
+        );
 
-        $localeIri = $this->iriConverter->getIriFromResourceClass(Locale::class) . '/' . $localeCode;
+        $localeIri = $this->router->generate('api_locales_admin_get_item', ['code' => $localeCode]);
         Assert::same($channelConfigurations[0]['locale'], $localeIri);
     }
 

@@ -7,6 +7,7 @@ namespace Setono\SyliusGiftCardPlugin\Tests\Behat\Context\Api\Admin;
 use ApiPlatform\Core\Api\IriConverterInterface;
 use Behat\Behat\Context\Context;
 use Setono\SyliusGiftCardPlugin\Model\GiftCardInterface;
+use Setono\SyliusGiftCardPlugin\Tests\Behat\Context\Api\Resources;
 use Sylius\Behat\Client\ApiClientInterface;
 use Sylius\Behat\Client\ResponseCheckerInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
@@ -37,7 +38,7 @@ final class ManagingGiftCardsContext implements Context
      */
     public function iBrowseGiftCards(): void
     {
-        $this->client->index();
+        $this->client->index(Resources::GIFT_CARDS->value);
     }
 
     /**
@@ -45,7 +46,7 @@ final class ManagingGiftCardsContext implements Context
      */
     public function iWantToCreateGiftCard(): void
     {
-        $this->client->buildCreateRequest();
+        $this->client->buildCreateRequest(Resources::GIFT_CARDS->value);
     }
 
     /**
@@ -61,7 +62,7 @@ final class ManagingGiftCardsContext implements Context
      */
     public function iOpenGiftCardPage(string $code): void
     {
-        $this->client->show($code);
+        $this->client->show(Resources::GIFT_CARDS->value, $code);
     }
 
     /**
@@ -69,7 +70,7 @@ final class ManagingGiftCardsContext implements Context
      */
     public function iWantToEditGiftCard(string $code): void
     {
-        $this->client->buildUpdateRequest($code);
+        $this->client->buildUpdateRequest(Resources::GIFT_CARDS->value, $code);
     }
 
     /**
@@ -85,7 +86,7 @@ final class ManagingGiftCardsContext implements Context
      */
     public function iDeleteGiftCard(string $code): void
     {
-        $this->client->delete($code);
+        $this->client->delete(Resources::GIFT_CARDS->value, $code);
     }
 
     /**
@@ -94,7 +95,7 @@ final class ManagingGiftCardsContext implements Context
      */
     public function iShouldSeeGiftCardPricedAtForCustomer(string $code, int $price, string $customerEmail = null): void
     {
-        $response = $this->client->show($code);
+        $response = $this->client->show(Resources::GIFT_CARDS->value, $code);
 
         $giftCardPrice = $this->responseChecker->getValue($response, 'amount');
         Assert::same($price, $giftCardPrice);
@@ -121,7 +122,7 @@ final class ManagingGiftCardsContext implements Context
      */
     public function iShouldNotSeeGiftCard(string $code): void
     {
-        $response = $this->client->index();
+        $response = $this->client->index(Resources::GIFT_CARDS->value);
 
         Assert::false(
             $this->responseChecker->hasItemWithValue($response, 'code', $code),
