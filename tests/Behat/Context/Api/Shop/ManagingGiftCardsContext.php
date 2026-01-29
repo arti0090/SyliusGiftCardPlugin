@@ -5,30 +5,23 @@ declare(strict_types=1);
 namespace Setono\SyliusGiftCardPlugin\Tests\Behat\Context\Api\Shop;
 
 use Behat\Behat\Context\Context;
+use Setono\SyliusGiftCardPlugin\Tests\Behat\Context\Api\Resources;
 use Sylius\Behat\Client\ApiClientInterface;
-use Sylius\Behat\Client\Request;
+use Sylius\Behat\Client\RequestFactoryInterface;
 use Sylius\Behat\Client\ResponseCheckerInterface;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Component\Currency\Model\CurrencyInterface;
 use Symfony\Component\HttpFoundation\Request as HTTPRequest;
 use Webmozart\Assert\Assert;
 
-final class ManagingGiftCardsContext implements Context
+final readonly class ManagingGiftCardsContext implements Context
 {
-    private ApiClientInterface $client;
-
-    private ResponseCheckerInterface $responseChecker;
-
-    private SharedStorageInterface $sharedStorage;
-
     public function __construct(
-        ApiClientInterface $client,
-        ResponseCheckerInterface $responseChecker,
-        SharedStorageInterface $sharedStorage,
+        private ApiClientInterface $client,
+        private ResponseCheckerInterface $responseChecker,
+        private SharedStorageInterface $sharedStorage,
+        private RequestFactoryInterface $requestFactory,
     ) {
-        $this->client = $client;
-        $this->responseChecker = $responseChecker;
-        $this->sharedStorage = $sharedStorage;
     }
 
     /**
@@ -36,7 +29,7 @@ final class ManagingGiftCardsContext implements Context
      */
     public function iBrowseGiftCards(): void
     {
-        $this->client->index();
+        $this->client->index(Resources::GIFT_CARDS->value);
     }
 
     /**
@@ -44,7 +37,7 @@ final class ManagingGiftCardsContext implements Context
      */
     public function iOpenGiftCardPage(string $code): void
     {
-        $this->client->show($code);
+        $this->client->show(Resources::GIFT_CARDS->value, $code);
     }
 
     /**
@@ -68,7 +61,7 @@ final class ManagingGiftCardsContext implements Context
      */
     public function giftCardsListShouldContain(string $code): void
     {
-        $response = $this->client->index();
+        $response = $this->client->index(Resources::GIFT_CARDS->value);
 
         Assert::notEmpty($this->responseChecker->getCollectionItemsWithValue($response, 'code', $code));
     }
@@ -78,7 +71,7 @@ final class ManagingGiftCardsContext implements Context
      */
     public function giftCardsListShouldNotContain(string $code): void
     {
-        $response = $this->client->index();
+        $response = $this->client->index(Resources::GIFT_CARDS->value);
 
         Assert::isEmpty($this->responseChecker->getCollectionItemsWithValue($response, 'code', $code));
     }
@@ -112,7 +105,7 @@ final class ManagingGiftCardsContext implements Context
      */
     public function theGiftCardShouldBeDisabled(string $code): void
     {
-        $this->client->show($code);
+        $this->client->show(Resources::GIFT_CARDS->value, $code);
 
         Assert::same($this->responseChecker->getValue($this->client->getLastResponse(), 'enabled'), false);
     }
@@ -122,16 +115,16 @@ final class ManagingGiftCardsContext implements Context
      */
     public function theGiftCardShouldBeEnabled(string $code): void
     {
-        $this->client->show($code);
+        $this->client->show(Resources::GIFT_CARDS->value, $code);
 
         Assert::same($this->responseChecker->getValue($this->client->getLastResponse(), 'enabled'), true);
     }
 
     private function applyGiftCardToOrder(string $giftCardCode): void
     {
-        $request = Request::customItemAction(
+        $request = $this->requestFactory->customItemAction(
             'shop',
-            'gift-cards',
+            Resources::GIFT_CARDS->value,
             $giftCardCode,
             HTTPRequest::METHOD_PATCH,
             'add-to-order',
@@ -144,9 +137,9 @@ final class ManagingGiftCardsContext implements Context
 
     private function removeGiftCardFromOrder(string $giftCardCode): void
     {
-        $request = Request::customItemAction(
+        $request = $this->requestFactory->customItemAction(
             'shop',
-            'gift-cards',
+            Resources::GIFT_CARDS->value,
             $giftCardCode,
             HTTPRequest::METHOD_PATCH,
             'remove-from-order',

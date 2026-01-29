@@ -8,6 +8,9 @@ use Setono\SyliusGiftCardPlugin\Api\Command\GiftCardCodeAwareInterface;
 use Setono\SyliusGiftCardPlugin\Model\GiftCardInterface;
 use Sylius\Bundle\ApiBundle\DataTransformer\CommandDataTransformerInterface;
 
+/**
+ * @psalm-suppress DeprecatedInterface
+ */
 final class GiftCardCodeAwareInputCommandDataTransformer implements CommandDataTransformerInterface
 {
     /**

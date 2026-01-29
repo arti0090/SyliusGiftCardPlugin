@@ -13,17 +13,12 @@ final class AddAdjustmentsToOrderAdjustmentClearerPass implements CompilerPassIn
 {
     public function process(ContainerBuilder $container): void
     {
-        if (!$container->has('sylius.order_processing.order_adjustments_clearer')) {
-            return;
-        }
-
-        $clearerDefinition = $container->getDefinition('sylius.order_processing.order_adjustments_clearer');
-
-        $adjustmentsToRemove = $clearerDefinition->getArgument(0);
+        /** @var array $adjustmentsToRemove */
+        $adjustmentsToRemove = $container->getParameter('sylius.order_processing.adjustment_clearing_types');
         Assert::isArray($adjustmentsToRemove);
 
         $adjustmentsToRemove[] = AdjustmentInterface::ORDER_GIFT_CARD_ADJUSTMENT;
 
-        $clearerDefinition->setArgument(0, $adjustmentsToRemove);
+        $container->setParameter('sylius.order_processing.adjustment_clearing_types', $adjustmentsToRemove);
     }
 }
