@@ -38,10 +38,14 @@ final class AddToCartTypeExtensionTest extends TestCase
 
         $orderItem->getUnits()->willReturn(new ArrayCollection([$orderItemUnit->reveal()]));
 
+        $variant = $this->prophesize(ProductVariantInterface::class);
+
         $product = $this->prophesize(Product::class);
         $product->isGiftCard()->willReturn(true);
         $product->isGiftCardAmountConfigurable()->willReturn(true);
-        $orderItem->getProduct()->willReturn($product);
+
+        $orderItem->getVariant()->willReturn($variant->reveal());
+        $variant->getProduct()->willReturn($product->reveal());
 
         $giftCardInformation->getAmount()->willReturn(100);
         $giftCardInformation->getCustomMessage()->willReturn('custom message');
@@ -56,7 +60,9 @@ final class AddToCartTypeExtensionTest extends TestCase
         ));
 
         $giftCard = $this->prophesize(GiftCardInterface::class);
-        $giftCardFactory->createFromOrderItemUnitAndCart($orderItemUnit, $cart)->willReturn($giftCard);
+        $giftCardFactory
+            ->createFromOrderItemUnitAndCart($orderItemUnit->reveal(), $cart->reveal())
+            ->willReturn($giftCard->reveal());
         $giftCard->setCustomMessage('custom message')->shouldBeCalled();
 
         $orderItem->setUnitPrice(100)->shouldBeCalled();
@@ -85,10 +91,13 @@ final class AddToCartTypeExtensionTest extends TestCase
         $product = $this->prophesize(Product::class);
         $product->isGiftCard()->willReturn(true);
         $product->isGiftCardAmountConfigurable()->willReturn(false);
-        $orderItem->getProduct()->willReturn($product);
-        $cart->getChannel()->willReturn($channel);
-        $orderItem->getVariant()->willReturn($variant);
-        $variant->getChannelPricingForChannel($channel)->willReturn($channelPricing);
+
+        $cart->getChannel()->willReturn($channel->reveal());
+
+        $orderItem->getVariant()->willReturn($variant->reveal());
+        $variant->getProduct()->willReturn($product->reveal());
+
+        $variant->getChannelPricingForChannel($channel->reveal())->willReturn($channelPricing->reveal());
         $channelPricing->getPrice()->willReturn(100);
 
         $giftCardFactory = $this->prophesize(GiftCardFactoryInterface::class);
@@ -101,7 +110,9 @@ final class AddToCartTypeExtensionTest extends TestCase
         ));
 
         $giftCard = $this->prophesize(GiftCardInterface::class);
-        $giftCardFactory->createFromOrderItemUnitAndCart($orderItemUnit, $cart)->willReturn($giftCard);
+        $giftCardFactory
+            ->createFromOrderItemUnitAndCart($orderItemUnit->reveal(), $cart->reveal())
+            ->willReturn($giftCard->reveal());
         $orderItem->setUnitPrice(100)->shouldBeCalled();
 
         $extension = new AddToCartTypeExtension($giftCardFactory->reveal(), $entityManager->reveal());

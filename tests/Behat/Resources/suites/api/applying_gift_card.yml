@@ -33,7 +33,8 @@ default:
 
                 - setono_sylius_gift_card.behat.context.transform.gift_card
                 - setono_sylius_gift_card.behat.context.setup.gift_card
-                
+
                 - setono_sylius_gift_card.behat.context.api.shop.managing_gift_cards
+                - setono_sylius_gift_card.behat.context.api.shop.gift_card_checkout
             filters:
                 tags: "@applying_gift_card && @api"

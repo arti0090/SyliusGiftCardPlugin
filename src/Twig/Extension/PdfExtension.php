@@ -11,8 +11,11 @@ final class PdfExtension extends AbstractExtension
 {
     public function getFunctions(): array
     {
+        /** @var callable $callable */
+        $callable = [PdfRuntime::class, 'getBase64EncodedExamplePdfContent'];
+
         return [
-            new TwigFunction('ssgc_get_base64_encoded_example_pdf_content', [PdfRuntime::class, 'getBase64EncodedExamplePdfContent']),
+            new TwigFunction('ssgc_get_base64_encoded_example_pdf_content', $callable),
         ];
     }
 }

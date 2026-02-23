@@ -105,10 +105,8 @@ use Setono\SyliusGiftCardPlugin\Model\ProductInterface as SetonoSyliusGiftCardPr
 use Setono\SyliusGiftCardPlugin\Model\ProductTrait as SetonoSyliusGiftCardProductTrait;
 use Sylius\Component\Core\Model\Product as BaseProduct;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="sylius_product")
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'sylius_product')]
 class Product extends BaseProduct implements SetonoSyliusGiftCardProductInterface
 {
     use SetonoSyliusGiftCardProductTrait;
@@ -126,15 +124,13 @@ declare(strict_types=1);
 
 namespace App\Entity\Order;
 
+use Doctrine\ORM\Mapping as ORM;
 use Setono\SyliusGiftCardPlugin\Model\OrderInterface as SetonoSyliusGiftCardPluginOrderInterface;
 use Setono\SyliusGiftCardPlugin\Model\OrderTrait as SetonoSyliusGiftCardPluginOrderTrait;
 use Sylius\Component\Core\Model\Order as BaseOrder;
-use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="sylius_order")
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'sylius_order')]
 class Order extends BaseOrder implements SetonoSyliusGiftCardPluginOrderInterface
 {
     use SetonoSyliusGiftCardPluginOrderTrait {
@@ -162,13 +158,15 @@ declare(strict_types=1);
 namespace App\Entity\Order;
 
 use Doctrine\ORM\Mapping as ORM;
+use Setono\SyliusGiftCardPlugin\Model\OrderItemInterface as SetonoSyliusGiftCardOrderItemInterface;
 use Setono\SyliusGiftCardPlugin\Model\OrderItemTrait as SetonoSyliusGiftCardOrderItemTrait;
 use Sylius\Component\Core\Model\OrderItem as BaseOrderItem;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="sylius_order_item")
+ * @method SetonoSyliusGiftCardOrderItemInterface|null getProduct()
  */
+#[ORM\Entity]
+#[ORM\Table(name: 'sylius_order_item')]
 class OrderItem extends BaseOrderItem
 {
     use SetonoSyliusGiftCardOrderItemTrait;
@@ -191,10 +189,8 @@ use Setono\SyliusGiftCardPlugin\Model\OrderItemUnitInterface as SetonoSyliusGift
 use Setono\SyliusGiftCardPlugin\Model\OrderItemUnitTrait as SetonoSyliusGiftCardOrderItemUnitTrait;
 use Sylius\Component\Core\Model\OrderItemUnit as BaseOrderItemUnit;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="sylius_order_item_unit")
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'sylius_order_item_unit')]
 class OrderItemUnit extends BaseOrderItemUnit implements SetonoSyliusGiftCardOrderItemUnitInterface
 {
     use SetonoSyliusGiftCardOrderItemUnitTrait;

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusGiftCardPlugin\Tests\Behat\Context\Api\Admin;
 
 use Behat\Behat\Context\Context;
+use Setono\SyliusGiftCardPlugin\Tests\Behat\Context\Api\Resources;
 use Sylius\Behat\Client\ApiClientInterface;
 use Sylius\Behat\Client\ResponseCheckerInterface;
 use Sylius\Component\Currency\Model\CurrencyInterface;
@@ -29,7 +30,7 @@ final class ManagingGiftCardsBalanceContext implements Context
      */
     public function iBrowseGiftCardsBalance(): void
     {
-        $this->client->index();
+        $this->client->index(Resources::GIFT_CARDS_BALANCE->value);
     }
 
     /**

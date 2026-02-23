@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusGiftCardPlugin\Api\CommandHandler;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Setono\SyliusGiftCardPlugin\Api\Command\AddItemToCart;
 use Setono\SyliusGiftCardPlugin\Api\Command\AddItemToCart as SetonoSyliusGiftCardAddItemToCart;
 use Setono\SyliusGiftCardPlugin\Factory\GiftCardFactoryInterface;
 use Setono\SyliusGiftCardPlugin\Model\OrderItemUnitInterface;
@@ -18,8 +19,10 @@ use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\Component\Core\Repository\ProductVariantRepositoryInterface;
 use Sylius\Component\Order\Modifier\OrderItemQuantityModifierInterface;
 use Sylius\Component\Order\Modifier\OrderModifierInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Webmozart\Assert\Assert;
 
+#[AsMessageHandler]
 final class AddItemToCartHandler
 {
     private OrderRepositoryInterface $orderRepository;
@@ -54,7 +57,7 @@ final class AddItemToCartHandler
         $this->giftCardManager = $giftCardManager;
     }
 
-    public function __invoke(SyliusAddItemToCart $addItemToCart): OrderInterface
+    public function __invoke(AddItemToCart|SyliusAddItemToCart $addItemToCart): OrderInterface
     {
         /** @var ProductVariantInterface|null $productVariant */
         $productVariant = $this->productVariantRepository->findOneBy(['code' => $addItemToCart->productVariantCode]);

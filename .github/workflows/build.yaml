@@ -24,7 +24,7 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - "8.1" # Always use the lowest version of PHP since a higher version would create actual syntax errors in lower versions
+                    - "8.2" # Always use the lowest version of PHP since a higher version would create actual syntax errors in lower versions
 
                 dependencies:
                     - "highest"
@@ -68,15 +68,12 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - "8.1"
                     - "8.2"
 
                 dependencies:
-                    - "lowest"
                     - "highest"
 
                 symfony:
-                    - "~5.4.0"
                     - "~6.4.0"
 
         steps:
@@ -93,14 +90,14 @@ jobs:
 
             -   name: "Remove require-dev section in composer.json"
                 run: "composer config --unset require-dev"
-            
+
             -   name: "Install composer dependencies"
                 uses: "ramsey/composer-install@v3"
                 env:
                     SYMFONY_REQUIRE: "${{ matrix.symfony }}"
                 with:
                     dependency-versions: "${{ matrix.dependencies }}"
-            
+
             -   name: "Run maglnet/composer-require-checker"
                 run: "composer-require-checker check --config-file=$(pwd)/composer-require-checker.json"
 
@@ -115,15 +112,12 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - "8.1"
                     - "8.2"
 
                 dependencies:
-                    - "lowest"
                     - "highest"
 
                 symfony:
-                    - "~5.4.0"
                     - "~6.4.0"
 
         steps:
@@ -140,7 +134,7 @@ jobs:
 
             -   name: "Remove sylius/sylius from composer.json"
                 run: "composer remove --dev --no-update --no-plugins --no-scripts sylius/sylius"
-            
+
             -   name: "Install composer dependencies"
                 uses: "ramsey/composer-install@v3"
                 env:
@@ -159,14 +153,12 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - "8.1"
                     - "8.2"
 
                 dependencies:
                     - "highest"
 
                 symfony:
-                    - "~5.4.0"
                     - "~6.4.0"
 
         steps:
@@ -183,7 +175,7 @@ jobs:
 
             -   name: "Remove sylius/sylius from composer.json"
                 run: "composer remove --dev --no-update --no-plugins --no-scripts sylius/sylius"
-            
+
             -   name: "Install composer dependencies"
                 uses: "ramsey/composer-install@v3"
                 env:
@@ -202,7 +194,6 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - "8.1"
                     - "8.2"
 
                 dependencies:
@@ -229,7 +220,7 @@ jobs:
             -   name: "Setup node"
                 uses: "actions/setup-node@v4"
                 with:
-                    node-version: "18"
+                    node-version: "20"
 
             -   name: "Install composer dependencies"
                 uses: "ramsey/composer-install@v3"
@@ -239,7 +230,9 @@ jobs:
                     dependency-versions: "${{ matrix.dependencies }}"
 
             -   name: "Install wkhtmltopdf"
-                run: "sudo apt-get install wkhtmltopdf"
+                run: |
+                    sudo apt-get update
+                    sudo apt-get install -y wkhtmltopdf
 
             -   name: "Lint container"
                 run: '(cd tests/Application && bin/console lint:container)'
@@ -255,10 +248,11 @@ jobs:
 
             -   name: "Get Yarn cache directory"
                 id: "yarn-cache"
-                run: "echo \"::set-output name=dir::$(yarn cache dir)\""
+                run: |
+                    echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
             -   name: "Cache Yarn"
-                uses: "actions/cache@v2"
+                uses: "actions/cache@v4"
                 with:
                     path: "${{ steps.yarn-cache.outputs.dir }}"
                     key: "yarn-${{ hashFiles('**/package.json **/yarn.lock') }}"
@@ -275,9 +269,9 @@ jobs:
 
             -   name: "Output PHP version for Symfony CLI"
                 run: "php -v | head -n 1 | awk '{ print $2 }' > .php-version"
-
-            -   name: "Install certificates"
-                run: "symfony server:ca:install"
+#
+#            -   name: "Install certificates"
+#                run: "symfony server:ca:install"
 
             -   name: "Run Chrome Headless"
                 run: "google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 --proxy-server='direct://' --proxy-bypass-list='*' http://127.0.0.1 > /dev/null 2>&1 &"
