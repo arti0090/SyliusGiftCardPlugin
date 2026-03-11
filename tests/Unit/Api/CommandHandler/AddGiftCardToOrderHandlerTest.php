@@ -19,16 +19,12 @@ final class AddGiftCardToOrderHandlerTest extends TestCase
 {
     use ProphecyTrait;
 
-    /**
-     * @test
-     */
-    public function it_adds_gift_card_to_order(): void
+    public function test_it_adds_gift_card_to_order(): void
     {
         $giftCard = new GiftCard();
         $order = new Order();
 
-        $command = new AddGiftCardToOrder('order_token_value');
-        $command->setGiftCardCode('gc_code');
+        $command = new AddGiftCardToOrder('order_token_value', 'gc_code');
 
         $giftCardRepository = $this->prophesize(GiftCardRepositoryInterface::class);
         $orderRepository = $this->prophesize(OrderRepositoryInterface::class);
@@ -46,10 +42,7 @@ final class AddGiftCardToOrderHandlerTest extends TestCase
         $addGiftCardToOrderHandler($command);
     }
 
-    /**
-     * @test
-     */
-    public function it_throws_error_if_gift_card_code_is_null(): void
+    public function test_it_throws_error_if_gift_card_code_is_null(): void
     {
         $command = new AddGiftCardToOrder('order_token_value');
 
@@ -67,13 +60,9 @@ final class AddGiftCardToOrderHandlerTest extends TestCase
         $addGiftCardToOrderHandler($command);
     }
 
-    /**
-     * @test
-     */
-    public function it_throws_error_if_gift_card_not_found(): void
+    public function test_it_throws_error_if_gift_card_not_found(): void
     {
-        $command = new AddGiftCardToOrder('order_token_value');
-        $command->setGiftCardCode('gc_code');
+        $command = new AddGiftCardToOrder('order_token_value', 'gc_code');
 
         $giftCardRepository = $this->prophesize(GiftCardRepositoryInterface::class);
         $orderRepository = $this->prophesize(OrderRepositoryInterface::class);
@@ -89,15 +78,11 @@ final class AddGiftCardToOrderHandlerTest extends TestCase
         $addGiftCardToOrderHandler($command);
     }
 
-    /**
-     * @test
-     */
-    public function it_throws_exception_if_order_not_found(): void
+    public function test_it_throws_exception_if_order_not_found(): void
     {
         $giftCard = new GiftCard();
 
-        $command = new AddGiftCardToOrder('order_token_value');
-        $command->setGiftCardCode('gc_code');
+        $command = new AddGiftCardToOrder('order_token_value', 'gc_code');
 
         $giftCardRepository = $this->prophesize(GiftCardRepositoryInterface::class);
         $orderRepository = $this->prophesize(OrderRepositoryInterface::class);

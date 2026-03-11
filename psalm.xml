@@ -8,11 +8,9 @@
     findUnusedVariablesAndParams="false"
     findUnusedCode="false"
     errorLevel="1"
-    errorBaseline="psalm-baseline.xml"
 >
     <projectFiles>
         <directory name="src"/>
-        <!-- <directory name="tests"/> TODO Readd this -->
         <ignoreFiles>
             <directory name="src/Fixture"/>
             <directory name="tests/Application"/>

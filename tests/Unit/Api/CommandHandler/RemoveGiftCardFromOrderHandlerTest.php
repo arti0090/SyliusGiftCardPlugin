@@ -19,16 +19,12 @@ final class RemoveGiftCardFromOrderHandlerTest extends TestCase
 {
     use ProphecyTrait;
 
-    /**
-     * @test
-     */
-    public function it_removes_gift_card_from_order(): void
+    public function test_it_removes_gift_card_from_order(): void
     {
         $giftCard = new GiftCard();
         $order = new Order();
 
-        $command = new RemoveGiftCardFromOrder('order_token_value');
-        $command->setGiftCardCode('gc_code');
+        $command = new RemoveGiftCardFromOrder('order_token_value', 'gc_code');
 
         $giftCardRepository = $this->prophesize(GiftCardRepositoryInterface::class);
         $orderRepository = $this->prophesize(OrderRepositoryInterface::class);
@@ -46,12 +42,9 @@ final class RemoveGiftCardFromOrderHandlerTest extends TestCase
         $removeGiftCardFromOrderHandler($command);
     }
 
-    /**
-     * @test
-     */
-    public function it_throws_error_if_gift_card_code_is_null(): void
+    public function test_it_throws_error_if_gift_card_code_is_null(): void
     {
-        $command = new RemoveGiftCardFromOrder('order_token_value');
+        $command = new RemoveGiftCardFromOrder('order_token_value', 'gc_code');
 
         $giftCardRepository = $this->prophesize(GiftCardRepositoryInterface::class);
         $orderRepository = $this->prophesize(OrderRepositoryInterface::class);
@@ -67,13 +60,9 @@ final class RemoveGiftCardFromOrderHandlerTest extends TestCase
         $removeGiftCardFromOrderHandler($command);
     }
 
-    /**
-     * @test
-     */
-    public function it_throws_error_if_gift_card_not_found(): void
+    public function test_it_throws_error_if_gift_card_not_found(): void
     {
-        $command = new RemoveGiftCardFromOrder('order_token_value');
-        $command->setGiftCardCode('gc_code');
+        $command = new RemoveGiftCardFromOrder('order_token_value', 'gc_code');
 
         $giftCardRepository = $this->prophesize(GiftCardRepositoryInterface::class);
         $orderRepository = $this->prophesize(OrderRepositoryInterface::class);
@@ -89,15 +78,10 @@ final class RemoveGiftCardFromOrderHandlerTest extends TestCase
         $removeGiftCardFromOrderHandler($command);
     }
 
-    /**
-     * @test
-     */
-    public function it_throws_exception_if_order_not_found(): void
+    public function test_it_throws_exception_if_order_not_found(): void
     {
         $giftCard = new GiftCard();
-
-        $command = new RemoveGiftCardFromOrder('order_token_value');
-        $command->setGiftCardCode('gc_code');
+        $command = new RemoveGiftCardFromOrder('order_token_value', 'gc_code');
 
         $giftCardRepository = $this->prophesize(GiftCardRepositoryInterface::class);
         $orderRepository = $this->prophesize(OrderRepositoryInterface::class);

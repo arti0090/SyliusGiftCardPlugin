@@ -22,10 +22,7 @@ class AssociateConfigurationToChannelHandlerTest extends TestCase
 {
     use ProphecyTrait;
 
-    /**
-     * @test
-     */
-    public function it_associates_configuration_to_channel(): void
+    public function test_it_associates_configuration_to_channel(): void
     {
         $configuration = new GiftCardConfiguration();
         $channel = new Channel();
@@ -38,8 +35,7 @@ class AssociateConfigurationToChannelHandlerTest extends TestCase
         $giftCardChannelConfigurationRepository = $this->prophesize(RepositoryInterface::class);
         $giftCardChannelConfigurationFactory = $this->prophesize(FactoryInterface::class);
 
-        $command = new AssociateConfigurationToChannel('en_GB', 'super_channel');
-        $command->setConfigurationCode('super_configuration');
+        $command = new AssociateConfigurationToChannel('en_GB', 'super_channel', 'super_configuration');
 
         $giftCardConfigurationRepository
             ->findOneBy(['code' => 'super_configuration'])
@@ -78,10 +74,7 @@ class AssociateConfigurationToChannelHandlerTest extends TestCase
         self::assertEquals($locale, $returnedChannelConfiguration->getLocale());
     }
 
-    /**
-     * @test
-     */
-    public function it_does_nothing_if_association_already_exists(): void
+    public function test_it_does_nothing_if_association_already_exists(): void
     {
         $configuration = new GiftCardConfiguration();
         $channel = new Channel();
@@ -94,8 +87,7 @@ class AssociateConfigurationToChannelHandlerTest extends TestCase
         $giftCardChannelConfigurationRepository = $this->prophesize(RepositoryInterface::class);
         $giftCardChannelConfigurationFactory = $this->prophesize(FactoryInterface::class);
 
-        $command = new AssociateConfigurationToChannel('en_GB', 'super_channel');
-        $command->setConfigurationCode('super_configuration');
+        $command = new AssociateConfigurationToChannel('en_GB', 'super_channel', 'super_configuration');
 
         $giftCardConfigurationRepository
             ->findOneBy(['code' => 'super_configuration'])
@@ -129,10 +121,7 @@ class AssociateConfigurationToChannelHandlerTest extends TestCase
         self::assertEquals(0, $returnedConfiguration->getChannelConfigurations()->count());
     }
 
-    /**
-     * @test
-     */
-    public function it_throws_exception_if_configuration_code_empty(): void
+    public function test_it_throws_exception_if_configuration_code_empty(): void
     {
         $giftCardConfigurationRepository = $this->prophesize(RepositoryInterface::class);
         $channelRepository = $this->prophesize(ChannelRepositoryInterface::class);
@@ -154,10 +143,7 @@ class AssociateConfigurationToChannelHandlerTest extends TestCase
         $handler($command);
     }
 
-    /**
-     * @test
-     */
-    public function it_throws_exception_if_configuration_not_found(): void
+    public function test_it_throws_exception_if_configuration_not_found(): void
     {
         $giftCardConfigurationRepository = $this->prophesize(RepositoryInterface::class);
         $channelRepository = $this->prophesize(ChannelRepositoryInterface::class);
@@ -165,8 +151,7 @@ class AssociateConfigurationToChannelHandlerTest extends TestCase
         $giftCardChannelConfigurationRepository = $this->prophesize(RepositoryInterface::class);
         $giftCardChannelConfigurationFactory = $this->prophesize(FactoryInterface::class);
 
-        $command = new AssociateConfigurationToChannel('en_GB', 'super_channel');
-        $command->setConfigurationCode('super_configuration');
+        $command = new AssociateConfigurationToChannel('en_GB', 'super_channel', 'super_configuration');
 
         $this->expectException(InvalidArgumentException::class);
 
@@ -180,10 +165,7 @@ class AssociateConfigurationToChannelHandlerTest extends TestCase
         $handler($command);
     }
 
-    /**
-     * @test
-     */
-    public function it_throws_eception_if_channel_not_found(): void
+    public function test_it_throws_eception_if_channel_not_found(): void
     {
         $configuration = new GiftCardConfiguration();
 
@@ -193,8 +175,7 @@ class AssociateConfigurationToChannelHandlerTest extends TestCase
         $giftCardChannelConfigurationRepository = $this->prophesize(RepositoryInterface::class);
         $giftCardChannelConfigurationFactory = $this->prophesize(FactoryInterface::class);
 
-        $command = new AssociateConfigurationToChannel('en_GB', 'super_channel');
-        $command->setConfigurationCode('super_configuration');
+        $command = new AssociateConfigurationToChannel('en_GB', 'super_channel', 'super_configuration');
 
         $giftCardConfigurationRepository
             ->findOneBy(['code' => 'super_configuration'])
@@ -212,10 +193,7 @@ class AssociateConfigurationToChannelHandlerTest extends TestCase
         $handler($command);
     }
 
-    /**
-     * @test
-     */
-    public function if_throws_exception_if_locale_not_found(): void
+    public function test_if_throws_exception_if_locale_not_found(): void
     {
         $configuration = new GiftCardConfiguration();
         $channel = new Channel();
@@ -226,8 +204,7 @@ class AssociateConfigurationToChannelHandlerTest extends TestCase
         $giftCardChannelConfigurationRepository = $this->prophesize(RepositoryInterface::class);
         $giftCardChannelConfigurationFactory = $this->prophesize(FactoryInterface::class);
 
-        $command = new AssociateConfigurationToChannel('en_GB', 'super_channel');
-        $command->setConfigurationCode('super_configuration');
+        $command = new AssociateConfigurationToChannel('en_GB', 'super_channel', 'super_configuration');
 
         $giftCardConfigurationRepository
             ->findOneBy(['code' => 'super_configuration'])

@@ -8,13 +8,13 @@ use Sylius\Component\Order\Model\OrderItemInterface as BaseOrderItemInterface;
 
 trait OrderItemTrait
 {
-    public function equals(BaseOrderItemInterface $item): bool
+    public function equals(BaseOrderItemInterface $orderItem): bool
     {
-        if ($this === $item) {
+        if ($this === $orderItem) {
             return true;
         }
 
-        if (false === parent::equals($item)) {
+        if (false === parent::equals($orderItem)) {
             return false;
         }
 

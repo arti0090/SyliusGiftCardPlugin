@@ -20,7 +20,8 @@
                 </normalizationContext>
             </operation>
 
-            <operation class="ApiPlatform\Metadata\Post" name="admin_post" uriTemplate="/admin/gift-cards">
+            <operation class="ApiPlatform\Metadata\Post" name="admin_post" uriTemplate="/admin/gift-cards"
+                       processor="setono_sylius_gift_card.api.state_processor.gift_card.persist">
                 <normalizationContext>
                     <values><value name="groups"><values><value>admin:gift_card:read</value></values></value></values>
                 </normalizationContext>
@@ -62,7 +63,8 @@
                        output="Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse">
             </operation>
 
-            <operation class="ApiPlatform\Metadata\Put" name="admin_put" uriTemplate="/admin/gift-cards/{code}">
+            <operation class="ApiPlatform\Metadata\Put" name="admin_put" uriTemplate="/admin/gift-cards/{code}"
+                       processor="setono_sylius_gift_card.api.state_processor.gift_card.persist">
                 <normalizationContext>
                     <values><value name="groups"><values><value>admin:gift_card:read</value></values></value></values>
                 </normalizationContext>
@@ -89,6 +91,9 @@
                        uriTemplate="/shop/gift-cards/{code}/add-to-order"
                        messenger="true"
                        input="Setono\SyliusGiftCardPlugin\Api\Command\AddGiftCardToOrder">
+                <uriVariables>
+                    <uriVariable parameterName="code" fromClass="%setono_sylius_gift_card.model.gift_card.class%" />
+                </uriVariables>
                 <normalizationContext>
                     <values><value name="groups"><values><value>shop:gift_card:read</value></values></value></values>
                 </normalizationContext>
@@ -101,6 +106,9 @@
                        uriTemplate="/shop/gift-cards/{code}/remove-from-order"
                        messenger="true"
                        input="Setono\SyliusGiftCardPlugin\Api\Command\RemoveGiftCardFromOrder">
+                <uriVariables>
+                    <uriVariable parameterName="code" fromClass="%setono_sylius_gift_card.model.gift_card.class%" />
+                </uriVariables>
                 <normalizationContext>
                     <values><value name="groups"><values><value>shop:gift_card:read</value></values></value></values>
                 </normalizationContext>

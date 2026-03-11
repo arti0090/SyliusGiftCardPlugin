@@ -32,7 +32,7 @@ final class AddGiftCardToOrderHandler
 
     public function __invoke(AddGiftCardToOrder $command): GiftCardInterface
     {
-        $giftCardCode = $command->getGiftCardCode();
+        $giftCardCode = $command->giftCardCode;
         Assert::notNull($giftCardCode);
 
         $giftCard = $this->giftCardRepository->findOneByCode($giftCardCode);

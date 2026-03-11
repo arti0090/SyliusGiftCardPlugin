@@ -40,6 +40,9 @@
             </operation>
 
             <operation class="ApiPlatform\Metadata\Get" name="admin_get_item" uriTemplate="/admin/gift-card-configurations/{code}">
+                <uriVariables>
+                    <uriVariable parameterName="code" fromClass="%setono_sylius_gift_card.model.gift_card.class%" />
+                </uriVariables>
                 <normalizationContext>
                     <values><value name="groups"><values><value>admin:gift_card_configuration:read</value></values></value></values>
                 </normalizationContext>

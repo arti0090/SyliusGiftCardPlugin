@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusGiftCardPlugin\Api\Controller\Action;
 
-use ApiPlatform\Api\IriConverterInterface;
-use ApiPlatform\Core\Api\IriConverterInterface as LegacyIriConverterInterface;
+use ApiPlatform\Metadata\IriConverterInterface;
 use Setono\SyliusGiftCardPlugin\Model\GiftCardConfigurationImageInterface;
 use Setono\SyliusGiftCardPlugin\Model\GiftCardConfigurationInterface;
 use Sylius\Component\Core\Uploader\ImageUploaderInterface;
@@ -23,17 +22,13 @@ final class UploadGiftCardConfigurationImageAction
 
     private ImageUploaderInterface $imageUploader;
 
-    /** @var LegacyIriConverterInterface|IriConverterInterface */
-    private $iriConverter;
+    private IriConverterInterface $iriConverter;
 
-    /**
-     * @param LegacyIriConverterInterface|IriConverterInterface $iriConverter
-     */
     public function __construct(
         FactoryInterface $giftCardConfigurationImageFactory,
         RepositoryInterface $giftCardConfigurationImageRepository,
         ImageUploaderInterface $imageUploader,
-        $iriConverter,
+        IriConverterInterface $iriConverter,
     ) {
         $this->giftCardConfigurationImageFactory = $giftCardConfigurationImageFactory;
         $this->giftCardConfigurationImageRepository = $giftCardConfigurationImageRepository;
@@ -75,16 +70,7 @@ final class UploadGiftCardConfigurationImageAction
 
     private function getOwner(string $ownerIri): GiftCardConfigurationInterface
     {
-        if ($this->iriConverter instanceof LegacyIriConverterInterface) {
-            $owner = $this->iriConverter->getItemFromIri($ownerIri);
-        } else {
-            /**
-             * @psalm-suppress UndefinedDocblockClass
-             *
-             * @var mixed $owner
-             */
-            $owner = $this->iriConverter->getResourceFromIri($ownerIri);
-        }
+        $owner = $this->iriConverter->getResourceFromIri($ownerIri);
 
         Assert::isInstanceOf($owner, GiftCardConfigurationInterface::class);
 

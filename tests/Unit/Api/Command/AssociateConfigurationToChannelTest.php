@@ -6,29 +6,20 @@ namespace Setono\SyliusGiftCardPlugin\Tests\Unit\Api\Command;
 
 use PHPUnit\Framework\TestCase;
 use Setono\SyliusGiftCardPlugin\Api\Command\AssociateConfigurationToChannel;
-use Setono\SyliusGiftCardPlugin\Api\Command\ConfigurationCodeAwareInterface;
 
 class AssociateConfigurationToChannelTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function it_is_initializable(): void
+    public function test_it_is_initializable(): void
     {
         $command = new AssociateConfigurationToChannel('locale_code', 'channel_code');
 
-        $this->assertInstanceOf(ConfigurationCodeAwareInterface::class, $command);
+        $this->assertInstanceOf(AssociateConfigurationToChannel::class, $command);
     }
 
-    /**
-     * @test
-     */
-    public function it_has_nullable_configuration_code(): void
+    public function test_it_has_nullable_configuration_code(): void
     {
         $command = new AssociateConfigurationToChannel('locale_code', 'channel_code');
 
-        $this->assertNull($command->getConfigurationCode());
-        $command->setConfigurationCode('configuration_code');
-        $this->assertEquals('configuration_code', $command->getConfigurationCode());
+        $this->assertNull($command->configurationCode);
     }
 }

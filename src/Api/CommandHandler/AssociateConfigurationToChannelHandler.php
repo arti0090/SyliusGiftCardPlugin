@@ -41,10 +41,10 @@ final class AssociateConfigurationToChannelHandler
 
     public function __invoke(AssociateConfigurationToChannel $command): GiftCardConfigurationInterface
     {
-        Assert::notNull($command->getConfigurationCode(), 'GiftCardConfiguration code can not be null');
+        Assert::notNull($command->configurationCode, 'GiftCardConfiguration code can not be null');
 
         /** @var GiftCardConfigurationInterface|null $configuration */
-        $configuration = $this->giftCardConfigurationRepository->findOneBy(['code' => $command->getConfigurationCode()]);
+        $configuration = $this->giftCardConfigurationRepository->findOneBy(['code' => $command->configurationCode]);
         Assert::notNull($configuration, 'GiftCardConfiguration can not be null');
 
         $channel = $this->channelRepository->findOneByCode($command->channelCode);

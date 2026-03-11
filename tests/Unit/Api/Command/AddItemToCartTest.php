@@ -35,9 +35,9 @@ class AddItemToCartTest extends TestCase
      */
     public function it_has_nullable_amount(): void
     {
-        $command = new AddItemToCart('tokenValue','variant', 1);
+        $command = new AddItemToCart('tokenValue', 'variant', 1);
         $this->assertNull($command->getAmount());
-        $command = new AddItemToCart('tokenValue','variant', 1, 150);
+        $command = new AddItemToCart('tokenValue', 'variant', 1, 150);
         $this->assertEquals(150, $command->getAmount());
     }
 
@@ -46,9 +46,9 @@ class AddItemToCartTest extends TestCase
      */
     public function it_has_nullable_custom_message(): void
     {
-        $command = new AddItemToCart('tokenValue','variant', 1);
+        $command = new AddItemToCart('tokenValue', 'variant', 1);
         $this->assertNull($command->getCustomMessage());
-        $command = new AddItemToCart('tokenValue','variant', 1, null, 'Custom message');
+        $command = new AddItemToCart('tokenValue', 'variant', 1, null, 'Custom message');
         $this->assertEquals('Custom message', $command->getCustomMessage());
     }
 }

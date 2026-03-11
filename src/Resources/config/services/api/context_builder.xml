@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container
+        xmlns="http://symfony.com/schema/dic/services"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <service
+                id="setono_sylius_gift_card.api.context_builder.gift_card_code_aware"
+                class="Sylius\Bundle\ApiBundle\Serializer\ContextBuilder\UriVariablesAwareContextBuilder"
+                decorates="api_platform.serializer.context_builder"
+                decoration-priority="60"
+        >
+            <argument type="service" id=".inner" />
+            <argument>Setono\SyliusGiftCardPlugin\Api\Attribute\GiftCardCodeAware</argument>
+            <argument type="constant">Setono\SyliusGiftCardPlugin\Api\Attribute\GiftCardCodeAware::DEFAULT_ARGUMENT_NAME</argument>
+            <argument>Setono\SyliusGiftCardPlugin\Model\GiftCardInterface</argument>
+        </service>
+
+        <service
+                id="setono_sylius_gift_card.api.context_builder.configuration_code_aware"
+                class="Sylius\Bundle\ApiBundle\Serializer\ContextBuilder\UriVariablesAwareContextBuilder"
+                decorates="api_platform.serializer.context_builder"
+                decoration-priority="60"
+        >
+            <argument type="service" id=".inner" />
+            <argument>Setono\SyliusGiftCardPlugin\Api\Attribute\ConfigurationCodeAware</argument>
+            <argument type="constant">Setono\SyliusGiftCardPlugin\Api\Attribute\ConfigurationCodeAware::DEFAULT_ARGUMENT_NAME</argument>
+            <argument>Setono\SyliusGiftCardPlugin\Model\GiftCardConfigurationInterface</argument>
+        </service>
+    </services>
+</container>

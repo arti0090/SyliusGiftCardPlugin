@@ -221,7 +221,7 @@ final class AddItemToCartHandlerTest extends TestCase
             $giftCardFactory->reveal(),
             $giftCardManager->reveal(),
         );
-        $message = new SetonoSyliusGiftCardAddItemToCart($orderTokenValue,$variantCode, 1);
+        $message = new SetonoSyliusGiftCardAddItemToCart($orderTokenValue, $variantCode, 1);
         $handler($message);
     }
 }
