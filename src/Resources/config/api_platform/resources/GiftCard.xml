@@ -1,0 +1,113 @@
+<?xml version="1.0" ?>
+<resources xmlns="https://api-platform.com/schema/metadata/resources-3.0"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="https://api-platform.com/schema/metadata/resources-3.0 https://api-platform.com/schema/metadata/resources-3.0.xsd">
+
+    <resource class="%setono_sylius_gift_card.model.gift_card.class%" shortName="GiftCard">
+
+        <validationContext>
+            <values>
+                <value name="groups">
+                    <values><value>sylius</value></values>
+                </value>
+            </values>
+        </validationContext>
+
+        <operations>
+            <operation class="ApiPlatform\Metadata\GetCollection" name="admin_get" uriTemplate="/admin/gift-cards">
+                <normalizationContext>
+                    <values><value name="groups"><values><value>admin:gift_card:read</value></values></value></values>
+                </normalizationContext>
+            </operation>
+
+            <operation class="ApiPlatform\Metadata\Post" name="admin_post" uriTemplate="/admin/gift-cards">
+                <normalizationContext>
+                    <values><value name="groups"><values><value>admin:gift_card:read</value></values></value></values>
+                </normalizationContext>
+                <denormalizationContext>
+                    <values><value name="groups"><values><value>admin:gift_card:create</value></values></value></values>
+                </denormalizationContext>
+            </operation>
+
+            <operation class="ApiPlatform\Metadata\GetCollection" name="admin_get_balance"
+                       uriTemplate="/admin/gift-cards/balance"
+                       controller="setono_sylius_gift_card.controller.action.get_balance"
+                       paginationEnabled="false"
+                       output="Setono\SyliusGiftCardPlugin\Model\GiftCardBalanceCollection">
+                <normalizationContext>
+                    <values><value name="groups"><values><value>admin:gift_card_balance:read</value></values></value></values>
+                </normalizationContext>
+            </operation>
+
+            <operation class="ApiPlatform\Metadata\GetCollection" name="shop_get" uriTemplate="/shop/gift-cards">
+                <normalizationContext>
+                    <values><value name="groups"><values><value>shop:gift_card:read</value></values></value></values>
+                </normalizationContext>
+            </operation>
+
+            <operation class="ApiPlatform\Metadata\Get" name="admin_get_item" uriTemplate="/admin/gift-cards/{code}">
+                <normalizationContext>
+                    <values><value name="groups"><values><value>admin:gift_card:read</value></values></value></values>
+                </normalizationContext>
+            </operation>
+
+            <operation class="ApiPlatform\Metadata\Get" name="admin_resend_email"
+                       uriTemplate="/admin/gift-cards/{code}/resend-email"
+                       controller="setono_sylius_gift_card_plugin.api.resend_gift_card_email">
+            </operation>
+
+            <operation class="ApiPlatform\Metadata\Get" name="admin_download_pdf"
+                       uriTemplate="/admin/gift-cards/{code}/pdf"
+                       controller="setono_sylius_gift_card_plugin.api.download_gift_card_pdf"
+                       output="Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse">
+            </operation>
+
+            <operation class="ApiPlatform\Metadata\Put" name="admin_put" uriTemplate="/admin/gift-cards/{code}">
+                <normalizationContext>
+                    <values><value name="groups"><values><value>admin:gift_card:read</value></values></value></values>
+                </normalizationContext>
+                <denormalizationContext>
+                    <values><value name="groups"><values><value>admin:gift_card:update</value></values></value></values>
+                </denormalizationContext>
+            </operation>
+
+            <operation class="ApiPlatform\Metadata\Delete" name="admin_delete" uriTemplate="/admin/gift-cards/{code}" />
+
+            <operation class="ApiPlatform\Metadata\Get" name="shop_get_item" uriTemplate="/shop/gift-cards/{code}">
+                <normalizationContext>
+                    <values><value name="groups"><values><value>shop:gift_card:read</value></values></value></values>
+                </normalizationContext>
+            </operation>
+
+            <operation class="ApiPlatform\Metadata\Get" name="shop_download_pdf"
+                       uriTemplate="/shop/gift-cards/{code}/pdf"
+                       controller="setono_sylius_gift_card_plugin.api.download_gift_card_pdf"
+                       output="Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse">
+            </operation>
+
+            <operation class="ApiPlatform\Metadata\Patch" name="shop_add_to_order"
+                       uriTemplate="/shop/gift-cards/{code}/add-to-order"
+                       messenger="true"
+                       input="Setono\SyliusGiftCardPlugin\Api\Command\AddGiftCardToOrder">
+                <normalizationContext>
+                    <values><value name="groups"><values><value>shop:gift_card:read</value></values></value></values>
+                </normalizationContext>
+                <denormalizationContext>
+                    <values><value name="groups"><values><value>shop:gift_card:add_to_order</value></values></value></values>
+                </denormalizationContext>
+            </operation>
+
+            <operation class="ApiPlatform\Metadata\Patch" name="shop_remove_from_order"
+                       uriTemplate="/shop/gift-cards/{code}/remove-from-order"
+                       messenger="true"
+                       input="Setono\SyliusGiftCardPlugin\Api\Command\RemoveGiftCardFromOrder">
+                <normalizationContext>
+                    <values><value name="groups"><values><value>shop:gift_card:read</value></values></value></values>
+                </normalizationContext>
+                <denormalizationContext>
+                    <values><value name="groups"><values><value>shop:gift_card:remove_from_order</value></values></value></values>
+                </denormalizationContext>
+            </operation>
+        </operations>
+    </resource>
+</resources>

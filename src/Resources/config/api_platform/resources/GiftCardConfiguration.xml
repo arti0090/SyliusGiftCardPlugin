@@ -1,0 +1,72 @@
+<?xml version="1.0" ?>
+<resources xmlns="https://api-platform.com/schema/metadata/resources-3.0"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="https://api-platform.com/schema/metadata/resources-3.0 https://api-platform.com/schema/metadata/resources-3.0.xsd">
+
+    <resource class="%setono_sylius_gift_card.model.gift_card_configuration.class%" shortName="GiftCardConfiguration">
+
+        <validationContext>
+            <values>
+                <value name="groups">
+                    <values><value>sylius</value></values>
+                </value>
+            </values>
+        </validationContext>
+
+        <operations>
+            <operation class="ApiPlatform\Metadata\GetCollection" name="admin_get" uriTemplate="/admin/gift-card-configurations">
+                <normalizationContext>
+                    <values><value name="groups"><values><value>admin:gift_card_configuration:read</value></values></value></values>
+                </normalizationContext>
+            </operation>
+
+            <operation class="ApiPlatform\Metadata\Post" name="admin_post"
+                       uriTemplate="/admin/gift-card-configurations"
+                       messenger="true"
+                       input="Setono\SyliusGiftCardPlugin\Api\Command\CreateGiftCardConfiguration">
+                <normalizationContext>
+                    <values><value name="groups"><values><value>admin:gift_card_configuration:read</value></values></value></values>
+                </normalizationContext>
+                <denormalizationContext>
+                    <values><value name="groups"><values><value>admin:gift_card_configuration:create</value></values></value></values>
+                </denormalizationContext>
+                <validationContext>
+                    <values>
+                        <value name="groups">
+                            <values><value>setono_sylius_gift_card_configuration</value></values>
+                        </value>
+                    </values>
+                </validationContext>
+            </operation>
+
+            <operation class="ApiPlatform\Metadata\Get" name="admin_get_item" uriTemplate="/admin/gift-card-configurations/{code}">
+                <normalizationContext>
+                    <values><value name="groups"><values><value>admin:gift_card_configuration:read</value></values></value></values>
+                </normalizationContext>
+            </operation>
+
+            <operation class="ApiPlatform\Metadata\Put" name="admin_put" uriTemplate="/admin/gift-card-configurations/{code}">
+                <normalizationContext>
+                    <values><value name="groups"><values><value>admin:gift_card_configuration:read</value></values></value></values>
+                </normalizationContext>
+                <denormalizationContext>
+                    <values><value name="groups"><values><value>admin:gift_card_configuration:update</value></values></value></values>
+                </denormalizationContext>
+            </operation>
+
+            <operation class="ApiPlatform\Metadata\Delete" name="admin_delete" uriTemplate="/admin/gift-card-configurations/{code}" />
+
+            <operation class="ApiPlatform\Metadata\Patch" name="admin_associate_channel"
+                       uriTemplate="/admin/gift-card-configurations/{code}/associate-channel"
+                       messenger="true"
+                       input="Setono\SyliusGiftCardPlugin\Api\Command\AssociateConfigurationToChannel">
+                <normalizationContext>
+                    <values><value name="groups"><values><value>admin:gift_card_configuration:read</value></values></value></values>
+                </normalizationContext>
+                <denormalizationContext>
+                    <values><value name="groups"><values><value>admin:gift_card_configuration:associate_channel</value></values></value></values>
+                </denormalizationContext>
+            </operation>
+        </operations>
+    </resource>
+</resources>

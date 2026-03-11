@@ -11,12 +11,12 @@ use Prophecy\PhpUnit\ProphecyTrait;
 use Setono\SyliusGiftCardPlugin\EmailManager\GiftCardEmailManagerInterface;
 use Setono\SyliusGiftCardPlugin\Model\GiftCard;
 use Setono\SyliusGiftCardPlugin\Operator\OrderGiftCardOperator;
-use Setono\SyliusGiftCardPlugin\Tests\Application\Model\Order;
-use Setono\SyliusGiftCardPlugin\Tests\Application\Model\OrderItem;
-use Setono\SyliusGiftCardPlugin\Tests\Application\Model\OrderItemUnit;
-use Setono\SyliusGiftCardPlugin\Tests\Application\Model\Product;
 use Sylius\Component\Core\Model\Customer;
 use Sylius\Component\Core\Model\ProductVariant;
+use Tests\Setono\SyliusGiftCardPlugin\Entity\Order;
+use Tests\Setono\SyliusGiftCardPlugin\Entity\OrderItem;
+use Tests\Setono\SyliusGiftCardPlugin\Entity\OrderItemUnit;
+use Tests\Setono\SyliusGiftCardPlugin\Entity\Product;
 
 final class GiftCardOperatorTest extends TestCase
 {

@@ -8,10 +8,10 @@ use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\UX\LiveComponent\Form\Type\LiveCollectionType;
 
 final class GiftCardConfigurationType extends AbstractResourceType
 {
@@ -62,7 +62,7 @@ final class GiftCardConfigurationType extends AbstractResourceType
             'required' => false,
             'remove_type' => true,
         ]);
-        $builder->add('channelConfigurations', CollectionType::class, [
+        $builder->add('channelConfigurations', LiveCollectionType::class, [
             'required' => false,
             'label' => 'setono_sylius_gift_card.form.gift_card_configuration.channel_configurations',
             'entry_type' => GiftCardChannelConfigurationType::class,

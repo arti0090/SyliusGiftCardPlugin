@@ -14,24 +14,21 @@ use Setono\SyliusGiftCardPlugin\Api\CommandHandler\AddItemToCartHandler;
 use Setono\SyliusGiftCardPlugin\Factory\GiftCardFactoryInterface;
 use Setono\SyliusGiftCardPlugin\Model\GiftCard;
 use Setono\SyliusGiftCardPlugin\Repository\OrderRepositoryInterface;
-use Setono\SyliusGiftCardPlugin\Tests\Application\Model\Order;
-use Setono\SyliusGiftCardPlugin\Tests\Application\Model\OrderItem;
-use Setono\SyliusGiftCardPlugin\Tests\Application\Model\OrderItemUnit;
-use Setono\SyliusGiftCardPlugin\Tests\Application\Model\Product;
 use Sylius\Bundle\ApiBundle\Command\Cart\AddItemToCart as SyliusAddItemToCart;
 use Sylius\Component\Core\Factory\CartItemFactoryInterface;
 use Sylius\Component\Core\Model\ProductVariant;
 use Sylius\Component\Core\Repository\ProductVariantRepositoryInterface;
 use Sylius\Component\Order\Modifier\OrderItemQuantityModifierInterface;
 use Sylius\Component\Order\Modifier\OrderModifierInterface;
+use Tests\Setono\SyliusGiftCardPlugin\Entity\Order;
+use Tests\Setono\SyliusGiftCardPlugin\Entity\OrderItem;
+use Tests\Setono\SyliusGiftCardPlugin\Entity\OrderItemUnit;
+use Tests\Setono\SyliusGiftCardPlugin\Entity\Product;
 
 final class AddItemToCartHandlerTest extends TestCase
 {
     use ProphecyTrait;
 
-    /**
-     * @test
-     */
     public function it_is_initializable(): void
     {
         $orderRepository = $this->prophesize(OrderRepositoryInterface::class);
@@ -55,12 +52,10 @@ final class AddItemToCartHandlerTest extends TestCase
         $this->assertInstanceOf(AddItemToCartHandler::class, $handler);
     }
 
-    /**
-     * @test
-     */
     public function it_adds_configurable_gift_card_to_cart(): void
     {
         $orderTokenValue = 'orderTokenValue';
+        $variantCode = 'variant';
 
         $orderRepository = $this->prophesize(OrderRepositoryInterface::class);
         $productVariantRepository = $this->prophesize(ProductVariantRepositoryInterface::class);
@@ -80,7 +75,7 @@ final class AddItemToCartHandlerTest extends TestCase
         $cartItem = new OrderItem();
 
         $productVariantRepository
-            ->findOneBy(['code' => 'variant'])
+            ->findOneBy(['code' => $variantCode])
             ->willReturn($productVariant);
         $orderRepository
             ->findCartByTokenValue($orderTokenValue)
@@ -110,8 +105,7 @@ final class AddItemToCartHandlerTest extends TestCase
             $giftCardFactory->reveal(),
             $giftCardManager->reveal(),
         );
-        $message = new SetonoSyliusGiftCardAddItemToCart('variant', 1, 1500, 'Custom message');
-        $message->setOrderTokenValue($orderTokenValue);
+        $message = new SetonoSyliusGiftCardAddItemToCart($orderTokenValue, $variantCode, 1, 1500, 'Custom message');
         $handler($message);
     }
 
@@ -121,6 +115,7 @@ final class AddItemToCartHandlerTest extends TestCase
     public function it_adds_simple_item_to_cart(): void
     {
         $orderTokenValue = 'orderTokenValue';
+        $variantCode = 'variant';
 
         $orderRepository = $this->prophesize(OrderRepositoryInterface::class);
         $productVariantRepository = $this->prophesize(ProductVariantRepositoryInterface::class);
@@ -137,7 +132,7 @@ final class AddItemToCartHandlerTest extends TestCase
         $cartItem->setVariant($productVariant)->shouldBeCalled();
 
         $productVariantRepository
-            ->findOneBy(['code' => 'variant'])
+            ->findOneBy(['code' => $variantCode])
             ->willReturn($productVariant);
         $orderRepository
             ->findCartByTokenValue($orderTokenValue)
@@ -162,17 +157,14 @@ final class AddItemToCartHandlerTest extends TestCase
             $giftCardFactory->reveal(),
             $giftCardManager->reveal(),
         );
-        $message = new SyliusAddItemToCart('variant', 1);
-        $message->setOrderTokenValue($orderTokenValue);
+        $message = new SyliusAddItemToCart($orderTokenValue, $variantCode, 1);
         $handler($message);
     }
 
-    /**
-     * @test
-     */
     public function it_adds_simple_gift_card_to_cart(): void
     {
         $orderTokenValue = 'orderTokenValue';
+        $variantCode = 'variant';
 
         $orderRepository = $this->prophesize(OrderRepositoryInterface::class);
         $productVariantRepository = $this->prophesize(ProductVariantRepositoryInterface::class);
@@ -193,7 +185,7 @@ final class AddItemToCartHandlerTest extends TestCase
         $cartItem->setVariant($productVariant)->shouldBeCalled();
 
         $productVariantRepository
-            ->findOneBy(['code' => 'variant'])
+            ->findOneBy(['code' => $variantCode])
             ->willReturn($productVariant);
         $orderRepository
             ->findCartByTokenValue($orderTokenValue)
@@ -229,8 +221,7 @@ final class AddItemToCartHandlerTest extends TestCase
             $giftCardFactory->reveal(),
             $giftCardManager->reveal(),
         );
-        $message = new SetonoSyliusGiftCardAddItemToCart('variant', 1);
-        $message->setOrderTokenValue($orderTokenValue);
+        $message = new SetonoSyliusGiftCardAddItemToCart($orderTokenValue,$variantCode, 1);
         $handler($message);
     }
 }

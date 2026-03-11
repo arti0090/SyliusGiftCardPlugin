@@ -1,0 +1,5 @@
+sylius_twig_hooks:
+    hooks:
+        'setono_sylius_gift_card.admin.gift_card.create.javascripts':
+            send_customer_email_js:
+                template: '@SetonoSyliusGiftCardPlugin/Admin/GiftCard/Create/_javascripts.html.twig'

@@ -63,7 +63,6 @@ final class AddItemToCartHandler
         $productVariant = $this->productVariantRepository->findOneBy(['code' => $addItemToCart->productVariantCode]);
 
         Assert::notNull($productVariant);
-        Assert::notNull($addItemToCart->orderTokenValue);
 
         /** @var OrderInterface|null $cart */
         $cart = $this->orderRepository->findCartByTokenValue($addItemToCart->orderTokenValue);

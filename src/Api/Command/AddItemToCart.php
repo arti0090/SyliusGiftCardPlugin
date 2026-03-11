@@ -4,17 +4,24 @@ declare(strict_types=1);
 
 namespace Setono\SyliusGiftCardPlugin\Api\Command;
 
+use Sylius\Bundle\ApiBundle\Attribute\OrderTokenValueAware;
 use Sylius\Bundle\ApiBundle\Command\Cart\AddItemToCart as BaseAddItemToCart;
 
+#[OrderTokenValueAware]
 class AddItemToCart extends BaseAddItemToCart
 {
     protected ?int $amount;
 
     protected ?string $customMessage;
 
-    public function __construct(string $productVariantCode, int $quantity, int $amount = null, string $customMessage = null)
-    {
-        parent::__construct($productVariantCode, $quantity);
+    public function __construct(
+        string $orderTokenValue,
+        string $productVariantCode,
+        int $quantity,
+        int $amount = null,
+        string $customMessage = null,
+    ) {
+        parent::__construct($orderTokenValue, $productVariantCode, $quantity);
 
         $this->amount = $amount;
         $this->customMessage = $customMessage;

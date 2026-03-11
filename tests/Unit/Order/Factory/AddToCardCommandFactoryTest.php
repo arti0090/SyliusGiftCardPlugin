@@ -9,8 +9,8 @@ use Setono\SyliusGiftCardPlugin\Order\AddToCartCommand;
 use Setono\SyliusGiftCardPlugin\Order\Factory\AddToCartCommandFactory;
 use Setono\SyliusGiftCardPlugin\Order\Factory\GiftCardInformationFactory;
 use Setono\SyliusGiftCardPlugin\Order\GiftCardInformation;
-use Setono\SyliusGiftCardPlugin\Tests\Application\Model\Order;
-use Setono\SyliusGiftCardPlugin\Tests\Application\Model\OrderItem;
+use Tests\Setono\SyliusGiftCardPlugin\Entity\Order;
+use Tests\Setono\SyliusGiftCardPlugin\Entity\OrderItem;
 
 final class AddToCardCommandFactoryTest extends TestCase
 {

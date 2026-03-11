@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container
+        xmlns="http://symfony.com/schema/dic/services"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <service
+                id="sylius_admin.twig.component.admin_user.form"
+                class="Sylius\Bundle\UiBundle\Twig\Component\ResourceFormComponent"
+        >
+            <argument type="service" id="setono_sylius_gift_card.repository.gift_card_configuration" />
+            <argument type="service" id="form.factory" />
+            <argument>%setono_sylius_gift_card.model.gift_card_configuration.class%</argument>
+            <argument>Setono\SyliusGiftCardPlugin\Form\Type\GiftCardConfigurationType</argument>
+
+            <tag name="sylius.live_component.admin" key="sylius_admin:gift_card_configuration:form" />
+        </service>
+    </services>
+</container>

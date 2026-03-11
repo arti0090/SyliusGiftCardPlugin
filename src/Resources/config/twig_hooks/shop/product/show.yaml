@@ -1,0 +1,6 @@
+sylius_twig_hooks:
+    hooks:
+#        'sylius.shop.product.show.add_to_cart_form':
+#            setono_sylius_gift_card_information:
+#                template: '@SetonoSyliusGiftCardPlugin/Shop/Product/Show/_addToCartGiftCardInformation.html.twig'
+#                priority: 10

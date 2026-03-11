@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<resources xmlns="https://api-platform.com/schema/metadata/resources-3.0"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="https://api-platform.com/schema/metadata/resources-3.0 https://api-platform.com/schema/metadata/resources-3.0.xsd">
+
+    <resource class="%sylius.model.order.class%">
+        <operations>
+            <operation class="ApiPlatform\Metadata\Post" name="shop_add_item"
+                       uriTemplate="/shop/orders/{tokenValue}/items"
+                       messenger="true"
+                       input="Setono\SyliusGiftCardPlugin\Api\Command\AddItemToCart">
+                <normalizationContext>
+                    <values><value name="groups"><values><value>shop:cart:read</value></values></value></values>
+                </normalizationContext>
+                <denormalizationContext>
+                    <values><value name="groups"><values><value>shop:cart:add_item</value></values></value></values>
+                </denormalizationContext>
+            </operation>
+        </operations>
+    </resource>
+</resources>

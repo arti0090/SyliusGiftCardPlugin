@@ -1,60 +1,74 @@
 {# @var \Setono\SyliusGiftCardPlugin\Model\GiftCardBalanceCollection giftCardBalanceCollection #}
 
-{% extends '@SyliusAdmin/layout.html.twig' %}
+{% extends '@SyliusAdmin/shared/layout/base.html.twig' %}
 
-{% import '@SyliusAdmin/Macro/breadcrumb.html.twig' as breadcrumb %}
-{% import "@SyliusAdmin/Common/Macro/money.html.twig" as money %}
+{% import '@SyliusAdmin/shared/helper/breadcrumbs.html.twig' as breadcrumb %}
+{% import "@SyliusAdmin/shared/helper/money.html.twig" as money %}
 
 {% block title %}{{ 'setono_sylius_gift_card.ui.balance'|trans }} {{ parent() }}{% endblock %}
 
-{% block content %}
-    <div class="ui stackable two column grid">
-        <div class="ten wide column">
-            <h1 class="ui header">
-                <i class="circular cart icon"></i>
-                <div class="content">
-                    {{ 'setono_sylius_gift_card.ui.balance'|trans }}
+{% block body %}
+    {% include '@SyliusAdmin/shared/crud/common/sidebar.html.twig' %}
+    {% include '@SyliusAdmin/shared/crud/common/navbar.html.twig' %}
+
+    <div class="page-wrapper">
+        <div class="page-header d-print-none">
+            <div class="container-xl">
+                <div class="row g-2 align-items-center">
+                    <div class="col">
+                        {% set breadcrumbs = [
+                            { name: 'sylius.ui.administration'|trans, url: path('sylius_admin_dashboard') },
+                            { name: 'setono_sylius_gift_card.ui.gift_cards'|trans, url: path('setono_sylius_gift_card_admin_gift_card_index') },
+                            { name: 'setono_sylius_gift_card.ui.balance'|trans }
+                        ] %}
+
+                        {{ breadcrumb.breadcrumbs(breadcrumbs) }}
+
+                        <h2 class="page-title mt-2">
+                            {{ ux_icon('tabler:scale', {'class': 'icon me-2'}) }}
+                            {{ 'setono_sylius_gift_card.ui.balance'|trans }}
+                        </h2>
+                    </div>
                 </div>
-            </h1>
+            </div>
         </div>
-    </div>
 
-    {% set breadcrumbs = [
-        { label: 'sylius.ui.administration'|trans, url: path('sylius_admin_dashboard') },
-        { label: 'setono_sylius_gift_card.ui.gift_cards'|trans, url: path('setono_sylius_gift_card_admin_gift_card_index') },
-        { label: 'setono_sylius_gift_card.ui.balance'|trans }
-    ]
-    %}
-
-    {{ breadcrumb.crumble(breadcrumbs) }}
-
-    <div class="ui stackable grid">
-        <div class="sixteen wide column">
-            <div class="ui segment">
-                <table class="ui celled table">
-                    <thead>
-                        <tr>
-                            <th class="center aligned">{{ 'setono_sylius_gift_card.ui.total'|trans }}</th>
-                            <th class="center aligned">{{ 'setono_sylius_gift_card.ui.count'|trans }}</th>
-                            <th class="center aligned">{{ 'setono_sylius_gift_card.ui.average_amount'|trans }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for giftCardBalance in giftCardBalanceCollection %}
-                        <tr>
-                            <td class="center aligned">
-                                {{ money.format(giftCardBalance.total, giftCardBalance.currencyCode) }}
-                            </td>
-                            <td class="center aligned">
-                                {{ giftCardBalance.count }}
-                            </td>
-                            <td class="center aligned">
-                                {{ money.format(giftCardBalance.averageAmount, giftCardBalance.currencyCode) }}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+        <div class="page-body">
+            <div class="container-xl">
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="table table-vcenter card-table table-striped">
+                            <thead>
+                            <tr>
+                                <th class="text-center">{{ 'setono_sylius_gift_card.ui.total'|trans }}</th>
+                                <th class="text-center">{{ 'setono_sylius_gift_card.ui.count'|trans }}</th>
+                                <th class="text-center">{{ 'setono_sylius_gift_card.ui.average_amount'|trans }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for giftCardBalance in giftCardBalanceCollection %}
+                                <tr>
+                                    <td class="text-center">
+                                        {{ money.format(giftCardBalance.total, giftCardBalance.currencyCode) }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ giftCardBalance.count }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ money.format(giftCardBalance.averageAmount, giftCardBalance.currencyCode) }}
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="3" class="text-center text-muted py-4">
+                                        {{ 'sylius.ui.no_results_to_display'|trans }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

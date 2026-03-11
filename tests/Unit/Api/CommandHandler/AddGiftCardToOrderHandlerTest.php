@@ -13,7 +13,7 @@ use Setono\SyliusGiftCardPlugin\Applicator\GiftCardApplicatorInterface;
 use Setono\SyliusGiftCardPlugin\Model\GiftCard;
 use Setono\SyliusGiftCardPlugin\Repository\GiftCardRepositoryInterface;
 use Setono\SyliusGiftCardPlugin\Repository\OrderRepositoryInterface;
-use Setono\SyliusGiftCardPlugin\Tests\Application\Model\Order;
+use Tests\Setono\SyliusGiftCardPlugin\Entity\Order;
 
 final class AddGiftCardToOrderHandlerTest extends TestCase
 {

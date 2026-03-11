@@ -1,0 +1,5 @@
+sylius_twig_hooks:
+    hooks:
+        'setono_sylius_gift_card.admin.gift_card_configuration.create.javascripts':
+#            preview_uploaded_image:
+#                template: '@SetonoSyliusGiftCardPlugin/Admin/GiftCardConfiguration/_javascripts.html.twig'

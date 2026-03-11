@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusGiftCardPlugin\Tests\Unit\Model;
 
 use PHPUnit\Framework\TestCase;
-use Setono\SyliusGiftCardPlugin\Tests\Application\Model\Product;
+use Tests\Setono\SyliusGiftCardPlugin\Entity\Product;
 
 final class ProductTraitTest extends TestCase
 {

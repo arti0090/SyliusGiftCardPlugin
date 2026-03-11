@@ -1,0 +1,6 @@
+{% set form = hookable_metadata.context.form %}
+<div class="mb-3" id="ssgc_configuration_background_image">
+    {{ form_label(form.backgroundImage) }}
+    {{ form_widget(form.backgroundImage) }}
+    {{ form_errors(form.backgroundImage) }}
+</div>

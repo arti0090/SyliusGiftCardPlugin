@@ -1,0 +1,66 @@
+#sylius_twig_hooks:
+#    hooks:
+#        'sylius_admin.gift_card_configuration.update.content':
+#            form:
+#                template: '@SetonoSyliusGiftCardPlugin/Admin/GiftCardConfiguration/_form.html.twig'
+
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.gift_card_configuration.update.content':
+            form:
+                component: 'sylius_admin:gift_card_configuration:form'
+                props:
+                    resource: '@=_context.resource'
+                    form: '@=_context.form'
+                    template: '@SyliusAdmin/shared/crud/common/content/form.html.twig'
+                configuration:
+                    render_rest: false
+                priority: 0
+
+        'sylius_admin.gift_card_configuration.update.content.form':
+            sections:
+                template: '@SetonoSyliusGiftCardPlugin/Admin/gift_card_configuration/form/sections.html.twig'
+                priority: 0
+
+        'sylius_admin.gift_card_configuration.update.content.form.sections':
+            general:
+                enabled: false
+            left:
+                template: '@SetonoSyliusGiftCardPlugin/Admin/gift_card_configuration/form/sections/left.html.twig'
+                priority: 200
+            right:
+                template: '@SetonoSyliusGiftCardPlugin/Admin/gift_card_configuration/form/sections/right.html.twig'
+                priority: 100
+            pdf:
+                template: '@SetonoSyliusGiftCardPlugin/Admin/gift_card_configuration/form/sections/pdf.html.twig'
+                priority: 0
+
+        'sylius_admin.gift_card_configuration.update.content.form.sections.left':
+            default:
+                enabled: false
+            code:
+                template: '@SetonoSyliusGiftCardPlugin/Admin/gift_card_configuration/form/sections/left/code.html.twig'
+                priority: 400
+            default_validity_period:
+                template: '@SetonoSyliusGiftCardPlugin/Admin/gift_card_configuration/form/sections/left/default_validity_period.html.twig'
+                priority: 300
+            background_image:
+                template: '@SetonoSyliusGiftCardPlugin/Admin/gift_card_configuration/form/sections/left/background_image.html.twig'
+                priority: 200
+            page_size:
+                template: '@SetonoSyliusGiftCardPlugin/Admin/gift_card_configuration/form/sections/left/page_size.html.twig'
+                priority: 100
+            orientation:
+                template: '@SetonoSyliusGiftCardPlugin/Admin/gift_card_configuration/form/sections/left/orientation.html.twig'
+                priority: 0
+
+        'sylius_admin.gift_card_configuration.update.content.form.sections.right':
+            enabled:
+                template: '@SetonoSyliusGiftCardPlugin/Admin/gift_card_configuration/form/sections/right/enabled.html.twig'
+                priority: 400
+            default:
+                template: '@SetonoSyliusGiftCardPlugin/Admin/gift_card_configuration/form/sections/right/default.html.twig'
+                priority: 300
+            channel_configurations:
+                template: '@SetonoSyliusGiftCardPlugin/Admin/gift_card_configuration/form/sections/right/channel_configuration.html.twig'
+                priority: 0

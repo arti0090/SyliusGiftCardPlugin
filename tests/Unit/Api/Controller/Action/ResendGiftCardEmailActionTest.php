@@ -9,12 +9,12 @@ use Prophecy\PhpUnit\ProphecyTrait;
 use Setono\SyliusGiftCardPlugin\Api\Controller\Action\ResendGiftCardEmailAction;
 use Setono\SyliusGiftCardPlugin\EmailManager\GiftCardEmailManagerInterface;
 use Setono\SyliusGiftCardPlugin\Model\GiftCard;
-use Setono\SyliusGiftCardPlugin\Tests\Application\Model\Order;
-use Setono\SyliusGiftCardPlugin\Tests\Application\Model\OrderItemUnit;
 use Sylius\Component\Core\Model\Customer;
 use Sylius\Component\Core\Model\OrderItem;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Tests\Setono\SyliusGiftCardPlugin\Entity\Order;
+use Tests\Setono\SyliusGiftCardPlugin\Entity\OrderItemUnit;
 
 final class ResendGiftCardEmailActionTest extends TestCase
 {
